@@ -40,7 +40,10 @@ jobs:
             python3-aiohttp-socks \
             python3-babel \
             python3-uvloop \
-            python3-aiodns
+            python3-aiodns \
+            wget
+          wget https://github.com/hoefling/python3-magic-filter/releases/download/1.0.12/python3-magic-filter_1.0.12-1_arm64.deb
+          apt install -y ./python3-magic-filter_1.0.12-1_arm64.deb
 
       - name: Checkout repository
         uses: actions/checkout@v4
