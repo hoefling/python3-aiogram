@@ -1,0 +1,3 @@
+[submodule "aiogram"]
+	path = aiogram
+	url = https://github.com/aiogram/aiogram.git

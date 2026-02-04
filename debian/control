@@ -1,0 +1,43 @@
+Source: python3-aiogram
+Section: python
+Priority: optional
+Maintainer: Oleg Höfling <oleg.hoefling@gmail.com>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ python3-all,
+ python3-build,
+ python3-hatchling,
+ pybuild-plugin-pyproject,
+ python3-pytest,
+ python3-pytest-aiohttp,
+ python3-pytest-asyncio,
+ python3-pymongo,
+ python3-motor,
+ python3-redis,
+ python3-aresponses,
+ python3-pytz,
+ python3-aiohttp-socks,
+ python3-babel,
+ python3-uvloop,
+ python3-aiodns
+Standards-Version: 4.7.2
+Homepage: https://github.com/aiogram/aiogram
+#Vcs-Browser: https://salsa.debian.org/debian/python3-aiogram
+#Vcs-Git: https://salsa.debian.org/debian/python3-aiogram.git
+
+Package: python3-aiogram
+Architecture: any
+Depends:
+ ${python3:Depends},
+ ${misc:Depends},
+ python3-aiofiles (>=23.2.1),
+ python3-aiohttp (>=3.9.0),
+ python3-certifi (>=2023.7.22),
+ python3-magic-filter (>=1.0.12),
+ python3-pydantic (>=2.4.1),
+ python3-typing-extensions (>=4.7.0),
+Description: Python framework for Telegram bots
+ Aiogram is a modern asynchronous framework for building Telegram bots
+ using Python 3.7+.

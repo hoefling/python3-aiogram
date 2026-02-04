@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+export PYBUILD_DIR=aiogram
+export PYBUILD_TEST_ARGS=-k 'not TestDeepLinking'
+
+%:
+	dh $@ --buildsystem=pybuild --with python3

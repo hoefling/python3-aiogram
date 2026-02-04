@@ -1,0 +1,88 @@
+name: Build Debian package
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-24.04-arm
+    container:
+      image: debian:13.1
+    env:
+      DEBIAN_FRONTEND: 'noninteractive'
+    steps:
+      - name: Install build dependencies
+        run: |
+          apt update
+          apt install -y \
+            build-essential \
+            debhelper \
+            devscripts \
+            dh-python \
+            git \
+            python3-all \
+            python3-build \
+            python3-hatchling \
+            pybuild-plugin-pyproject \
+            python3-pytest \
+            python3-pytest-aiohttp \
+            python3-pytest-asyncio \
+            python3-pymongo \
+            python3-motor \
+            python3-redis \
+            python3-aresponses \
+            python3-pytz \
+            python3-aiohttp-socks \
+            python3-babel \
+            python3-uvloop \
+            python3-aiodns
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup non-root user
+        run: |
+          useradd -m builder
+          mkdir -p /home/builder/.cache
+          chown -R builder:builder /home/builder
+          chown -R builder:builder $GITHUB_WORKSPACE/..
+        shell: bash
+
+      - name: Show versions (debug)
+        run: |
+          python3 --version
+          debuild --version
+
+      - name: Build package
+        run: |
+          su builder -c "
+          debuild -us -uc -b
+          mkdir artifacts
+          cp ../*.deb artifacts/
+          cp ../*.changes artifacts/
+          cp ../*.buildinfo artifacts/
+          "
+
+      - name: Run lintian
+        run: |
+          su builder -c "
+          lintian artifacts/*.changes
+          "
+
+      - name: Upload .deb artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-packages
+          path: artifacts/*
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
