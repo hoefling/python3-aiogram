@@ -49,7 +49,7 @@ jobs:
           apt install -y ./python3-magic-filter_1.0.12-1_arm64.deb
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
