@@ -55,8 +55,8 @@ jobs:
             python3-pydantic \
             python3-typing-extensions \
             wget
-          wget https://github.com/hoefling/python3-magic-filter/releases/download/1.0.12/python3-magic-filter_1.0.12-1_arm64.deb
-          apt install -y ./python3-magic-filter_1.0.12-1_arm64.deb
+          wget https://github.com/hoefling/python3-magic-filter/releases/download/1.0.12/python3-magic-filter_1.0.12-1_${{ matrix.arch }}.deb
+          apt install -y ./python3-magic-filter_1.0.12-1_${{ matrix.arch }}.deb
 
       - name: Checkout repository
         uses: actions/checkout@v6
