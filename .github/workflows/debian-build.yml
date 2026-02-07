@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Install build dependencies
         run: |
+          apt update
+          apt install -y ca-certificates apt-transport-https
           echo "deb [trusted=yes] https://hoefling.io/apt stable main" | tee /etc/apt/sources.list.d/personal.list
           apt update
           apt install -y \
