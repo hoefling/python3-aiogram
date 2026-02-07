@@ -28,6 +28,7 @@ jobs:
     steps:
       - name: Install build dependencies
         run: |
+          echo "deb [trusted=yes] https://hoefling.io/apt stable main" | tee /etc/apt/sources.list.d/personal.list
           apt update
           apt install -y \
             build-essential \
@@ -54,9 +55,7 @@ jobs:
             python3-aiofiles \
             python3-pydantic \
             python3-typing-extensions \
-            wget
-          wget https://github.com/hoefling/python3-magic-filter/releases/download/1.0.12/python3-magic-filter_1.0.12-1_${{ matrix.arch }}.deb
-          apt install -y ./python3-magic-filter_1.0.12-1_${{ matrix.arch }}.deb
+            python3-magic-filter
 
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -114,3 +113,12 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: artifacts/**/*
+
+      - name: Trigger APT repo import
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: import-release.yml
+          repo: hoefling/apt
+          ref: refs/heads/main
+          inputs: '{"repo":"${{ github.repository }}","version":"${{ github.ref_name }}"}'
+          token: ${{ secrets.APT_REPO_TOKEN }}
