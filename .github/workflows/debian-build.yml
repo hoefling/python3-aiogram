@@ -29,7 +29,7 @@ jobs:
       - name: Install build dependencies
         run: |
           apt update
-          apt install -y ca-certificates apt-transport-https
+          apt install -y ca-certificates apt-transport-https curl
           curl -fsSL https://hoefling.io/apt/keys/repo-public.gpg \
             | tee /usr/share/keyrings/hoefling-archive-keyring.gpg
           echo "deb [signed-by=/usr/share/keyrings/hoefling-archive-keyring.gpg] https://hoefling.io/apt stable main" \
