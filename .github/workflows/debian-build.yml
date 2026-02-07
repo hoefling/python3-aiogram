@@ -30,7 +30,10 @@ jobs:
         run: |
           apt update
           apt install -y ca-certificates apt-transport-https
-          echo "deb [trusted=yes] https://hoefling.io/apt stable main" | tee /etc/apt/sources.list.d/personal.list
+          curl -fsSL https://hoefling.io/apt/keys/repo-public.gpg \
+            | tee /usr/share/keyrings/hoefling-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hoefling-archive-keyring.gpg] https://hoefling.io/apt stable main" \
+            | tee /etc/apt/sources.list.d/hoefling-private.list
           apt update
           apt install -y \
             build-essential \
